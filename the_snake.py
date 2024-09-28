@@ -45,6 +45,7 @@ class GameObject:
     """
     Базовый класс игрового объекта.
     """
+    
     def __init__(self):
         self.position = (0, 0)
         self.body_color = (255, 0, 0)
@@ -61,6 +62,7 @@ class Snake(GameObject):
     """
     Класс, описывающий змейку в игре.
     """
+    
     def __init__(self):
         super().__init__()
         self.length = 1
@@ -139,13 +141,14 @@ class Snake(GameObject):
             self.length -= 1
             self.positions.pop(-1)
         else:
-            self.reset()   
+            self.reset()
 
 
 class Apple(GameObject):
     """
     Класс, описывающий яблоко в игре.
     """
+    
     def __init__(self):
         super().__init__()
         self.body_color = APPLE_COLOR
@@ -166,13 +169,16 @@ class Apple(GameObject):
         pygame.draw.rect(screen, self.body_color, rect)
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
+
 class Rotten(Apple):
     """
     Класс, описывающий гнилое яблоко в игре - наследник класса Apple.
     """
+    
     def __init__(self):
         super().__init__()
         self.body_color = ROTTEN_COLOR
+
 
 def handle_keys(snake):
     """
