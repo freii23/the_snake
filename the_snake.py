@@ -42,10 +42,8 @@ clock = pygame.time.Clock()
 
 
 class GameObject:
-    """
-    Базовый класс игрового объекта.
-    """
-    
+    """Базовый класс игрового объекта."""
+
     def __init__(self):
         self.position = (0, 0)
         self.body_color = (255, 0, 0)
@@ -59,10 +57,8 @@ class GameObject:
 
 
 class Snake(GameObject):
-    """
-    Класс, описывающий змейку в игре.
-    """
-    
+    """Класс, описывающий змейку в игре."""
+
     def __init__(self):
         super().__init__()
         self.length = 1
@@ -86,11 +82,11 @@ class Snake(GameObject):
         Логика перемещения змейки.
         Обновляет позицию головы и проверяет столкновения.
         """
-        new = self.get_head_pos()
+        new = self.get_head_position()
         new_x_pos = new[0] + GRID_SIZE * self.direction[0]
         new_y_pos = new[1] + GRID_SIZE * self.direction[1]
-
-        # Обработка выхода за границы поля (змейка появляется с противоположной стороны)
+        # Обработка выхода за границы поля
+        # (змейка появляется с противоположной стороны)
         if new_x_pos < 0:
             new_x_pos = SCREEN_WIDTH - GRID_SIZE
         elif new_x_pos >= SCREEN_WIDTH:
@@ -110,15 +106,13 @@ class Snake(GameObject):
                 self.positions.pop(-1)
 
     def draw(self):
-        """
-        Отрисовка змейки на экране.
-        """
+        """Отрисовка змейки на экране."""
         for position in self.positions:
             rect = pygame.Rect(position, (GRID_SIZE, GRID_SIZE))
             pygame.draw.rect(screen, self.body_color, rect)
             pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
-    def get_head_pos(self):
+    def get_head_position(self):
         """
         Возвращает позицию головы змейки.
         :return: tuple - координаты головы
@@ -126,16 +120,15 @@ class Snake(GameObject):
         return self.positions[0]
 
     def reset(self):
-        """
-        Сброс состояния змейки (возвращение в начальное состояние).
-        """
+        """Сброс состояния змейки (возвращение в начальное состояние)."""
         self.length = 1
         self.positions = [(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)]
         self.direction = (randint(-1, 1), randint(-1, 1))
 
     def cut(self):
         """
-        Уменьшение размеров змейки на 1 клетку, либо игра начинается сначала.
+        Уменьшение размеров змейки на 1 клетку,
+        либо игра начинается сначала.
         """
         if self.length > 1:
             self.length -= 1
@@ -145,10 +138,8 @@ class Snake(GameObject):
 
 
 class Apple(GameObject):
-    """
-    Класс, описывающий яблоко в игре.
-    """
-    
+    """Класс, описывающий яблоко в игре."""
+
     def __init__(self):
         super().__init__()
         self.body_color = APPLE_COLOR
@@ -159,22 +150,20 @@ class Apple(GameObject):
         Случайным образом задает новую позицию яблока на поле.
         :return: tuple - координаты новой позиции
         """
-        return randint(0, GRID_WIDTH - 1) * GRID_SIZE, randint(0, GRID_HEIGHT - 1) * GRID_SIZE
+        random_x_pos = randint(0, GRID_WIDTH - 1) * GRID_SIZE
+        random_y_pos = randint(0, GRID_HEIGHT - 1) * GRID_SIZE
+        return random_x_pos, random_y_pos
 
     def draw(self):
-        """
-        Отрисовка яблока на экране.
-        """
+        """Отрисовка яблока на экране."""
         rect = pygame.Rect(self.position, (GRID_SIZE, GRID_SIZE))
         pygame.draw.rect(screen, self.body_color, rect)
         pygame.draw.rect(screen, BORDER_COLOR, rect, 1)
 
 
 class Rotten(Apple):
-    """
-    Класс, описывающий гнилое яблоко в игре - наследник класса Apple.
-    """
-    
+    """Класс, описывающий гнилое яблоко в игре - наследник класса Apple."""
+
     def __init__(self):
         super().__init__()
         self.body_color = ROTTEN_COLOR
